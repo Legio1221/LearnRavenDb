@@ -1,0 +1,11 @@
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\bin\Debug\netcoreapp2.0\LearnRavenDb.deps.json
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\bin\Debug\netcoreapp2.0\LearnRavenDb.runtimeconfig.json
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\bin\Debug\netcoreapp2.0\LearnRavenDb.runtimeconfig.dev.json
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\bin\Debug\netcoreapp2.0\LearnRavenDb.dll
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.csprojResolveAssemblyReference.cache
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.csproj.CoreCompileInputs.cache
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.AssemblyInfoInputs.cache
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.AssemblyInfo.cs
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\bin\Debug\netcoreapp2.0\LearnRavenDb.pdb
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.dll
+C:\Users\oscarjr\LearnRavenDb\LearnRavenDb\obj\Debug\netcoreapp2.0\LearnRavenDb.pdb
