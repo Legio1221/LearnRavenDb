@@ -5,6 +5,7 @@
     using Orders;
     using System.Collections.Generic;
     using System.Linq;
+    using Raven.Client.Documents.Indexes;
 
     class Program
     {
@@ -80,6 +81,7 @@
                 // --------------------- END Calling Multiple Records at a Single Time
             }
 
+
             using (var session = DocumentStoreSingleton.Store.OpenSession())
             {
                 // --------------------- Loading Related Documents --------------------- //
@@ -129,31 +131,70 @@
                 Console.WriteLine("------------------------------------------");
                 // --------------------- END Loading Related Documents
             }
-
             
 
+            // --------------------- Create collection based on Model and retrieve its records --------------------- //
             using (var session = DocumentStoreSingleton.Store.OpenSession())
             {
                 Example example = new Example()
                 {
-                    Desc = "Wow that's really fucken gr8 m8"
+                    Desc = "not so random description"
+                };
+
+                DerivedExample derivedExample = new DerivedExample()
+                {
+                    Desc = "This is a derived example. :)",
+                    SubDesc = "hmm, work we must."
                 };
 
                 session.Store(example);
                 Console.WriteLine("stored an Example object");
+                session.Store(derivedExample);
+                Console.WriteLine("stored a DerivedExample object.");
                 session.SaveChanges();
 
 
                 Console.WriteLine("Retrieving Example objects");
 
-                var queriedExample = session.Query<Example>()
-                                            .ToList();
-
+                //var queriedExample = session.Query<Example>()
+                //                          .ToList();
+                new Examples_ByDesc().Execute(DocumentStoreSingleton.Store);
+                var queriedExample = session.Query<Example, Examples_ByDesc>().ToList();
+                
                 foreach(var exam in queriedExample)
                 {
                     Console.WriteLine(exam.Id + " " + exam.Desc);
                 }
+                Console.WriteLine("------------------------------------------");
             }
+            // --------------------- END Create collection based on Model and retrieve its records
+
+
+            // --------------------- Query Example --------------------- //
+            using (var session = DocumentStoreSingleton.Store.OpenSession())
+            {
+                // Random order id
+                Random randomIntGenerator = new Random();
+                int companyId = randomIntGenerator.Next(1, 91);
+
+                Console.WriteLine("It's about to get lit fam. We bout to query the orders based on the company id.");
+                Console.WriteLine($"By the way, the Company ID is: {companyId}");
+                var orders =
+                (
+                    from order in session.Query<Order>()
+                                         .Include(ord => ord.Company)
+                    where order.Company == $"companies/{companyId}"
+                    select order
+                ).ToList();
+
+                foreach(var order in orders)
+                {                    
+                    Console.WriteLine($"{order.Id} - {order.OrderedAt}");
+                }
+            }
+            // --------------------- END Query Example
+
+
 #if DEBUG
             Console.WriteLine("press any key to continue...");
             Console.ReadKey();
@@ -165,5 +206,19 @@
     {
         public string Id { get; set; }
         public string Desc { get; set; }
+    }
+
+    public class DerivedExample : Example
+    {
+        public string SubDesc { get; set; }
+    }
+
+    public class Examples_ByDesc : AbstractMultiMapIndexCreationTask
+    {
+        public Examples_ByDesc()
+        {
+            AddMap<Example>(examples => from e in examples select new { e.Desc });
+            AddMap<DerivedExample>(dexams => from de in dexams select new { de.Desc });
+        }
     }
 }
